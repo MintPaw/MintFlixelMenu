@@ -5,6 +5,7 @@
 	<app main="Main" path="bin" file="MintFlx" />
 	
 	<source path="src" />
+	<window width="1280" height="720" />
 	
 	<haxelib name="openfl" />
 	<haxelib name="flixel" />

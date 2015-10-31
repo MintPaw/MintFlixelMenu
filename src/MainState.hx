@@ -1,6 +1,8 @@
 package;
 
+import flixel.FlxG;
 import flixel.FlxState;
+import mintFlx.MintFlxMenu;
 
 class MainState extends FlxState
 {
@@ -13,6 +15,7 @@ class MainState extends FlxState
 	override public function create():Void
 	{
 		super.create();
-		trace("Created");
+
+		FlxG.switchState(new MintFlxMenu());
 	}
 }

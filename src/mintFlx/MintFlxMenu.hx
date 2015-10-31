@@ -6,6 +6,7 @@ import flixel.FlxObject;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+import flixel.addons.ui.FlxUICheckBox;
 
 class MintFlxMenu extends FlxState
 {
@@ -37,6 +38,7 @@ class MintFlxMenu extends FlxState
 
 	private var _settingsObjects:Array<FlxObject>;
 	private var _back:FlxButton;
+	private var _aa:FlxUICheckBox;
 
 	public function new()
 	{
@@ -78,12 +80,12 @@ class MintFlxMenu extends FlxState
 			_play = new FlxButton(
 					0, 0,
 					playButtonString,
-					internalPlayCallback);
+					__playCallback);
 
 			_settings = new FlxButton(
 					0, 0,
 					settingsButtonString,
-					internalSettingsCallback);
+					__settingsCallback);
 
 			_settings.x = FlxG.width - _settings.width - buttonPadding;
 			_settings.y = FlxG.height - _settings.height - buttonPadding;
@@ -106,12 +108,18 @@ class MintFlxMenu extends FlxState
 		}
 
 		{ // Setup settings
-			_back = new FlxButton(0, 0, "Back", internalBackCallback);
+			_back = new FlxButton(0, 0, "Back", __backCallback);
 			_back.x = FlxG.width - _back.width - buttonPadding;
 			_back.y = FlxG.height - _back.height - buttonPadding;
+
+			_aa = new FlxUICheckBox(0, 0, null, null,
+					"Anti Aliasing", 100, [], __aaCallback);
+			_aa.x = buttonPadding;
+			_aa.y = buttonPadding;
 			
 			_settingsObjects = [];
 			_settingsObjects.push(_back);
+			_settingsObjects.push(_aa);
 
 			for (m in _settingsObjects) add(m);
 		}
@@ -130,21 +138,27 @@ class MintFlxMenu extends FlxState
 
 		if (_currentMenu == "settings") {
 			for (m in _settingsObjects) m.reset(m.x, m.y);
+			_aa.checked = FlxG.camera.antialiasing;
 		}
 	}
 
-	private function internalPlayCallback():Void
+	private function __playCallback():Void
 	{
 		FlxG.camera.fade(0x000000, _fadeTime, false, playCallback, true);
 	}
 
-	private function internalSettingsCallback():Void
+	private function __settingsCallback():Void
 	{
 		loadMenu("settings");
 	}
 
-	private function internalBackCallback():Void
+	private function __backCallback():Void
 	{
 		if (_currentMenu == "settings") loadMenu("main");
+	}
+
+	private function __aaCallback():Void
+	{
+		FlxG.camera.antialiasing = _aa.checked;
 	}
 }

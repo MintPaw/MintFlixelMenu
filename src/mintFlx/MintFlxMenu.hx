@@ -12,7 +12,6 @@ class MintFlxMenu extends FlxState
 	public var subtitleString:String = "Unnamed";
 	public var playButtonString:String = "Play";
 	public var settingsButtonString:String = "Settings";
-	public var creditsButtonString:String = "Credits";
 
 	public var titleGraphicPath:String = null;
 	public var subtitleGraphicPath:String = null;
@@ -30,7 +29,6 @@ class MintFlxMenu extends FlxState
 	private var _subtitle:FlxSprite;
 	private var _play:FlxButton;
 	private var _settings:FlxButton;
-	private var _credits:FlxButton;
 
 	public function new()
 	{
@@ -81,20 +79,12 @@ class MintFlxMenu extends FlxState
 				 	settingsButtonString,
 				 	internalSettingsCallback);
 
-			_credits = new FlxButton(
-					0, 0,
-				 	creditsButtonString,
-				 	internalCreditsCallback);
-
 			var buttonPadding:Float = 10;
-			_credits.x = FlxG.width - _credits.width - buttonPadding;
-			_credits.y = FlxG.height - _credits.height - buttonPadding;
 			_settings.x = FlxG.width - _settings.width - buttonPadding;
-			_settings.y = _credits.y - _credits.height - buttonPadding;
+			_settings.y = FlxG.height - _settings.height - buttonPadding;
 			_play.x = FlxG.width - _play.width - buttonPadding;
 			_play.y = _settings.y - _settings.height - buttonPadding;
 
-			add(_credits);
 			add(_settings);
 			add(_play);
 						
@@ -109,11 +99,6 @@ class MintFlxMenu extends FlxState
 	}
 
 	private function internalSettingsCallback():Void
-	{
-		// FlxG.camera.fade(0x000000, _fadeTime, false, playCallback, true);
-	}
-
-	private function internalCreditsCallback():Void
 	{
 		// FlxG.camera.fade(0x000000, _fadeTime, false, playCallback, true);
 	}

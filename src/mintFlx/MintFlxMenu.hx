@@ -35,6 +35,9 @@ class MintFlxMenu extends FlxState
 	private var _settings:FlxButton;
 	private var _credits:FlxText;
 
+	private var _settingsObjects:Array<FlxObject>;
+	private var _back:FlxButton;
+
 	public function new()
 	{
 		super();
@@ -43,6 +46,10 @@ class MintFlxMenu extends FlxState
 	override public function create():Void
 	{
 		super.create();
+		
+		// Global function defines
+		var buttonPadding:Float = 10;
+
 		{ // Setup misc
 			_fadeTime = fadeTime;
 
@@ -78,7 +85,6 @@ class MintFlxMenu extends FlxState
 					settingsButtonString,
 					internalSettingsCallback);
 
-			var buttonPadding:Float = 10;
 			_settings.x = FlxG.width - _settings.width - buttonPadding;
 			_settings.y = FlxG.height - _settings.height - buttonPadding;
 			_play.x = FlxG.width - _play.width - buttonPadding;
@@ -99,6 +105,17 @@ class MintFlxMenu extends FlxState
 			for (m in _mainObjects) add(m);
 		}
 
+		{ // Setup settings
+			_back = new FlxButton(0, 0, "Back", internalBackCallback);
+			_back.x = FlxG.width - _back.width - buttonPadding;
+			_back.y = FlxG.height - _back.height - buttonPadding;
+			
+			_settingsObjects = [];
+			_settingsObjects.push(_back);
+
+			for (m in _settingsObjects) add(m);
+		}
+
 		loadMenu("main");
 	}
 	
@@ -110,6 +127,10 @@ class MintFlxMenu extends FlxState
 		if (_currentMenu == "main") {
 			for (m in _mainObjects) m.reset(m.x, m.y);
 		}
+
+		if (_currentMenu == "settings") {
+			for (m in _settingsObjects) m.reset(m.x, m.y);
+		}
 	}
 
 	private function internalPlayCallback():Void
@@ -119,6 +140,11 @@ class MintFlxMenu extends FlxState
 
 	private function internalSettingsCallback():Void
 	{
-		// FlxG.camera.fade(0x000000, _fadeTime, false, playCallback, true);
+		loadMenu("settings");
+	}
+
+	private function internalBackCallback():Void
+	{
+		if (_currentMenu == "settings") loadMenu("main");
 	}
 }

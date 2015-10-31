@@ -2,6 +2,7 @@ package mintFlx;
 
 import flixel.FlxState;
 import flixel.FlxSprite;
+import flixel.FlxObject;
 import flixel.FlxG;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
@@ -27,6 +28,7 @@ class MintFlxMenu extends FlxState
 
 	private var _fadeTime:Float;
 	
+	private var _mainObjects:Array<FlxObject>;
 	private var _title:FlxSprite;
 	private var _subtitle:FlxSprite;
 	private var _play:FlxButton;
@@ -41,25 +43,19 @@ class MintFlxMenu extends FlxState
 	override public function create():Void
 	{
 		super.create();
-
-		_fadeTime = fadeTime;
+		{ // Setup misc
+			_fadeTime = fadeTime;
 
 #if debug
-		_fadeTime = debugFadeTime;
+			_fadeTime = debugFadeTime;
 #end
+		}
 
-		loadMenu("main");
-	}
-	
-	private function loadMenu(menu:String):Void
-	{
-		_currentMenu = menu;
-
-		if (_currentMenu == "main") {
+		{ // Setup main
 			if (titleGraphicPath != null) {
 				_title = new FlxSprite(titleGraphicPath);
 			} else {
-			 	_title = new FlxText(0, 0, FlxG.width, titleString, 40);
+				_title = new FlxText(0, 0, FlxG.width, titleString, 40);
 				cast(_title, FlxText).alignment = "center";
 				_title.y = FlxG.height / 6;
 			}
@@ -67,20 +63,20 @@ class MintFlxMenu extends FlxState
 			if (subtitleGraphicPath != null) {
 				_subtitle = new FlxSprite(subtitleGraphicPath);
 			} else {
-			 	_subtitle = new FlxText(0, 0, FlxG.width, subtitleString, 20);
+				_subtitle = new FlxText(0, 0, FlxG.width, subtitleString, 20);
 				cast(_subtitle, FlxText).alignment = "center";
 				_subtitle.y = _title.y + _title.height + 10;
 			}
 
 			_play = new FlxButton(
 					0, 0,
-				 	playButtonString,
-				 	internalPlayCallback);
+					playButtonString,
+					internalPlayCallback);
 
 			_settings = new FlxButton(
 					0, 0,
-				 	settingsButtonString,
-				 	internalSettingsCallback);
+					settingsButtonString,
+					internalSettingsCallback);
 
 			var buttonPadding:Float = 10;
 			_settings.x = FlxG.width - _settings.width - buttonPadding;
@@ -92,13 +88,27 @@ class MintFlxMenu extends FlxState
 			_credits.autoSize = true;
 			_credits.x = buttonPadding;
 			_credits.y = FlxG.height - _credits.height - buttonPadding;
-			add(_credits);
 
-			add(_settings);
-			add(_play);
-						
-			add(_title);
-			add(_subtitle);
+			_mainObjects = [];
+			_mainObjects.push(_title);
+			_mainObjects.push(_subtitle);
+			_mainObjects.push(_credits);
+			_mainObjects.push(_settings);
+			_mainObjects.push(_play);
+
+			for (m in _mainObjects) add(m);
+		}
+
+		loadMenu("main");
+	}
+	
+	private function loadMenu(menu:String):Void
+	{
+		for (m in members) m.kill();
+		_currentMenu = menu;
+
+		if (_currentMenu == "main") {
+			for (m in _mainObjects) m.reset(m.x, m.y);
 		}
 	}
 

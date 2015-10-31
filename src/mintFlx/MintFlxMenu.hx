@@ -12,6 +12,8 @@ class MintFlxMenu extends FlxState
 	public var subtitleString:String = "Unnamed";
 	public var playButtonString:String = "Play";
 	public var settingsButtonString:String = "Settings";
+	public var credits:String =
+		"Credits:\nMember: position\nMember: position\netc...";
 
 	public var titleGraphicPath:String = null;
 	public var subtitleGraphicPath:String = null;
@@ -29,6 +31,7 @@ class MintFlxMenu extends FlxState
 	private var _subtitle:FlxSprite;
 	private var _play:FlxButton;
 	private var _settings:FlxButton;
+	private var _credits:FlxText;
 
 	public function new()
 	{
@@ -84,6 +87,12 @@ class MintFlxMenu extends FlxState
 			_settings.y = FlxG.height - _settings.height - buttonPadding;
 			_play.x = FlxG.width - _play.width - buttonPadding;
 			_play.y = _settings.y - _settings.height - buttonPadding;
+
+			_credits = new FlxText(0, 0, 0, credits, 20);
+			_credits.autoSize = true;
+			_credits.x = buttonPadding;
+			_credits.y = FlxG.height - _credits.height - buttonPadding;
+			add(_credits);
 
 			add(_settings);
 			add(_play);

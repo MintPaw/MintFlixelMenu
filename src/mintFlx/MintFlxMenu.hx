@@ -83,8 +83,20 @@ class MintFlxMenu extends FlxState
 
 			_credits = new FlxButton(
 					0, 0,
-				 	settingsButtonString,
+				 	creditsButtonString,
 				 	internalCreditsCallback);
+
+			var buttonPadding:Float = 10;
+			_credits.x = FlxG.width - _credits.width - buttonPadding;
+			_credits.y = FlxG.height - _credits.height - buttonPadding;
+			_settings.x = FlxG.width - _settings.width - buttonPadding;
+			_settings.y = _credits.y - _credits.height - buttonPadding;
+			_play.x = FlxG.width - _play.width - buttonPadding;
+			_play.y = _settings.y - _settings.height - buttonPadding;
+
+			add(_credits);
+			add(_settings);
+			add(_play);
 						
 			add(_title);
 			add(_subtitle);

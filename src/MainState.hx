@@ -16,6 +16,10 @@ class MainState extends FlxState
 	{
 		super.create();
 
-		FlxG.switchState(new MintFlxMenu());
+		var menu:MintFlxMenu = new MintFlxMenu();
+		menu.titleString = "Test file";
+		menu.subtitleString = "A file for testing utils";
+
+		FlxG.switchState(menu);
 	}
 }

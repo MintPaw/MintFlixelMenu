@@ -3,6 +3,7 @@
 	
 	<meta title="MintFlx" package="com.sample.mintflx" version="1.0.0" company="Company Name" />
 	<app main="Main" path="bin" file="MintFlx" />
+	<set name="next" />
 
 	<source path="src" />
 	<window width="1280" height="720" />
